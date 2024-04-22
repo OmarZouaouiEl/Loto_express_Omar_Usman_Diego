@@ -20,7 +20,7 @@ class LotoExpress {
     }
 
     // Realiza un sorteo, valida las apuestas de las oficinas y calcula los premios
-     fun realizarSorteo() {
+    private fun realizarSorteo() {
         val sorteo = Sorteo()
         sorteo.realizarSorteo()
         sorteos.add(sorteo)

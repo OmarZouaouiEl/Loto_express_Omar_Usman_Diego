@@ -1,15 +1,9 @@
-import kotlin.random.Random
-
 class Sorteo {
     private val numerosSorteados = mutableListOf<Int>()
     private var complementario = 0
 
-    init {
-        realizarSorteo()
-    }
-
-    // Método para realizar un sorteo único
-    private fun realizarSorteo() {
+    // Realiza un sorteo generando los números sorteados y el complementario
+    fun realizarSorteo() {
         numerosSorteados.clear()
         while (numerosSorteados.size < 6) {
             val numeroAleatorio = (1..49).random()
@@ -24,27 +18,23 @@ class Sorteo {
         numerosSorteados.sort()
     }
 
-    // Método para realizar múltiples sorteos
-    fun realizarSorteos(numSorteos: Int) {
-        for (i in 1..numSorteos) {
-            realizarSorteo()
-            // Lógica adicional si es necesario
+    // Valida una apuesta y devuelve la categoría de premio
+    fun validarApuesta(apuesta: List<Int>): Int {
+        var aciertos = 0
+        for (numero in apuesta) {
+            if (numero in numerosSorteados) {
+                aciertos++
+            }
         }
-    }
-
-    // Método para reiniciar el estado del sorteo
-    fun reiniciarSorteo() {
-        numerosSorteados.clear()
-        complementario = 0
-    }
-
-    // Método para obtener los números sorteados
-    fun obtenerNumerosSorteados(): List<Int> {
-        return numerosSorteados.toList()
-    }
-
-    // Método para obtener el número complementario
-    fun obtenerComplementario(): Int {
-        return complementario
+        if (aciertos == 5 && complementario in apuesta) {
+            aciertos++
+        }
+        return when (aciertos) {
+            6 -> 1
+            5 -> if (complementario in apuesta) 2 else 3
+            4 -> 4
+            3 -> 5
+            else -> 6
+        }
     }
 }
